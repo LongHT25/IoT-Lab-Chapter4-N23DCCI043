@@ -1,0 +1,41 @@
+stages:
+  - lint
+  - test
+  - verify
+
+# ===== STAGE 1: LINT =====
+flake8-lint:
+  stage: lint
+  image: python:3.11-slim
+  script:
+    - pip install flake8
+    - echo '--- Lint BT1 ---'
+    - flake8 BT1_QEMU_SystemMonitor/ --max-line-length=120 --show-source
+    - echo '--- Lint BT2 ---'
+    - flake8 BT2_QEMU_SensorSim/ --max-line-length=120 --show-source
+  tags: []
+
+# ===== STAGE 2: TEST =====
+test-sensor-sim:
+  stage: test
+  image: python:3.11-slim
+  script:
+    - pip install psutil
+    - echo '--- Test sensor_sim.py ---'
+    - cd BT2_QEMU_SensorSim && python sensor_sim.py
+  tags: []
+
+# ===== STAGE 3: VERIFY =====
+check-structure:
+  stage: verify
+  image: alpine:latest
+  script:
+    - echo '--- Kiểm tra cấu trúc thư mục ---'
+    - test -f BT1_QEMU_SystemMonitor/system_monitor.py || exit 1
+    - test -f BT2_QEMU_SensorSim/sensor_sim.py || exit 1
+    - test -f BT2_QEMU_SensorSim/sensor_visualize.py || exit 1
+    - test -f README.md || exit 1
+    - test -f .github/workflows/ci.yml || exit 1
+    - test -f .gitlab-ci.yml || exit 1
+    - echo 'Structure OK — cả GitHub Actions và GitLab CI đều có.'
+  tags: []
