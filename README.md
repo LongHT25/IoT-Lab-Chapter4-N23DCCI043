@@ -1,4 +1,6 @@
 # IoT Lab — Chapter 4: Raspberry Pi with Python
+[![CI GitHub Actions](https://github.com/LongHT25/IoT-Lab-Chapter4-N23DCCI043/actions/workflows/ci.yml/badge.svg)](https://github.com/LongHT25/IoT-Lab-Chapter4-N23DCCI043/actions)
+[![CI GitLab Pipeline](https://gitlab.com/HoangLong25/IoT-Lab-Chapter4-N23DCCI043/badges/main/pipeline.svg)](https://gitlab.com/HoangLong25/IoT-Lab-Chapter4-N23DCCI043/-/pipelines)
 
 **Họ tên:** Trương Hoàng Long
 **MSSV:** N23DCCI043
