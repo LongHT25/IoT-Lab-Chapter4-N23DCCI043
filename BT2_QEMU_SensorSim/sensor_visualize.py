@@ -1,13 +1,17 @@
 import matplotlib
-matplotlib.use('Agg')  # Required for headless QEMU/VirtualBox
 import matplotlib.pyplot as plt
-from sensor_sim import SimUltrasonic, SimPotentiometer
 from time import sleep
+from sensor_sim import SimUltrasonic, SimPotentiometer
+
+# Cấu hình matplotlib sau khi đã import xong tất cả
+matplotlib.use('Agg')  # Required for headless QEMU/VirtualBox
+
 
 # Initialize sensors
 us = SimUltrasonic(echo=24, trigger=23, base_distance=30.0)
-pot = SimPotentiometer(initial_value=0.3) 
+pot = SimPotentiometer(initial_value=0.3)
 span = pot.value * 100  # Threshold: 40cm
+
 
 # --- Step 5: Collect 50 samples ---
 distances = []
@@ -20,6 +24,7 @@ for i in range(50):
 
 print(f"\nThu thập xong {len(distances)} mẫu.")
 
+
 # --- Step 6: Plotting (English Labels and Print) ---
 fig, ax = plt.subplots(figsize=(10, 5))
 x = range(len(distances))
@@ -31,11 +36,10 @@ ax.plot(x, distances, 'b-', linewidth=1.5, label='Distance (cm)')
 ax.axhline(y=span, color='r', linestyle='--', linewidth=2, label=f'Span = {span:.0f} cm')
 
 # Fill Span Region (distance < span)
-# Corrected list comprehension for full fill
 fill_area = [min(d, span) for d in distances]
 ax.fill_between(x, 0, fill_area, alpha=0.2, color='red', label='Span Region!')
 
-# Labels, title, and grid (All in English)
+# Labels, title, and grid
 ax.set_title('Ultrasonic Sensor Simulation — Span Detection')
 ax.set_xlabel('Sample')
 ax.set_ylabel('Distance (cm)')
